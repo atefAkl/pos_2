@@ -8,6 +8,31 @@
         <h2>لوحة التحكم</h2>
     </div>
 </div>
+<style>
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    a.setting-link {
+        transition: all 0.3s ease;
+    }
+
+    a.setting-link .link-title {
+        font-weight: bold;
+        margin-inline-start: 10px;
+        scale: 1
+    }
+
+    a.setting-link i {
+        scale: 1;
+    }
+
+    .setting-link:hover * {
+        color: rgb(1, 72, 148);
+        scale: 1.05
+    }
+</style>
 
 <!-- POS Session Status -->
 @if($openSession)
@@ -54,7 +79,29 @@
 @endif
 
 <!-- Statistics Cards -->
+<div class="card">
+    <div class="card-header">
+        اجهزة الكاشير
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <a href="{{ route('cashiers.index') }}" class="setting-link col-12 col-sm-6 col-md-4 col-lg-3">
+                <i class="fa fa-print fa-2x"></i>
+                <span class="link-title fs-6" style="">اجهزة الكاشير</span>
+            </a>
+            <a href="{{ route('cashiers.index') }}" class="setting-link col-12 col-sm-6 col-md-4 col-lg-3">
+                <i class="fa fa-print fa-2x"></i>
+                <span class="link-title fs-6" style="">اجهزة الكاشير</span>
+            </a>
+        </div>
+
+
+    </div>
+</div>
+
 <div class="row mb-4">
+
     <div class="col-md-3">
         <div class="card text-center">
             <div class="card-body">

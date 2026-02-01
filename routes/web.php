@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CashierController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\OrderController;
@@ -18,6 +19,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Cashiers Management
+    Route::get('cashiers', [CashierController::class, 'index'])->name('cashiers.index');
+    Route::get('cashiers/create', [CashierController::class, 'create'])->name('cashiers.create');
+    Route::post('cashiers', [CashierController::class, 'store'])->name('cashiers.store');
+    Route::get('cashiers/{cashier}', [CashierController::class, 'show'])->name('cashiers.show');
+    Route::get('cashiers/{cashier}/edit', [CashierController::class, 'edit'])->name('cashiers.edit');
+    Route::put('cashiers/{cashier}', [CashierController::class, 'update'])->name('cashiers.update');
+    Route::delete('cashiers/{cashier}', [CashierController::class, 'destroy'])->name('cashiers.destroy');
 
     // Meals Management
     Route::resource('meals', MealController::class);
