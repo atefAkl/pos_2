@@ -14,6 +14,47 @@
                 display: none !important;
             }
         }
+
+        * {
+            padding: auto;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: normal 1rem/1.3 'Cairo', sans-serif;
+            color: inherit;
+        }
+
+        ul li,
+        ol li {
+            list-style: none;
+        }
+
+        .card {
+            box-shadow: 0 1px 5px 2px #0005
+        }
+
+        a,
+        a:hover,
+        a:focus,
+        a:active,
+        a:visited {
+            text-decoration: none;
+        }
+
+        .container {
+            width: 80%;
+        }
+
+        a.quick-action-btn {
+            width: 50px;
+            height: 50px;
+            background-color: #ccc;
+            text-align: center;
+            color: #555;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 50px;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 
