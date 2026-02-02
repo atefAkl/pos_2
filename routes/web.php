@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MealController;
@@ -17,6 +18,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Protected Routes
 Route::middleware('auth')->group(function () {
+
+    // User Profile
+    Route::get('auth/user/profile', [UserController::class, 'profile'])->name('auth.user.profile');
+    Route::get('auth/user/profile/edit', [UserController::class, 'editProfile'])->name('auth.user.profile.edit');
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
@@ -28,8 +28,32 @@
             list-style: none;
         }
 
+        .page-heading .page-heading-title {
+            font: Bolder 1.3rem /1.3 'Cairo', sans-serif;
+            color: #555;
+            padding: 0 1rem;
+        }
+
         .card {
-            box-shadow: 0 1px 5px 2px #0005
+            box-shadow: 0 0px 8px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-3px);
+            }
+        }
+
+        .page-heading .page-heading-actions button {
+            background-color: transparent;
+            border: none;
+            font-size: 18px;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: #a0a2a3;
+                color: #fff;
+            }
         }
 
         a,
@@ -59,64 +83,68 @@
 </head>
 
 <body>
-    @if(!isset($hideSidebar) || !$hideSidebar)
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark no-print">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('dashboard') }}">نقطة البيع</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard') }}">الرئيسية</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pos') }}">نقطة البيع</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('orders.index') }}">الطلبات</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('meals.index') }}">الوجبات</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('reports.daily') }}">التقارير</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            {{ Auth::user()->name }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">تسجيل الخروج</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+    @if (!isset($hideSidebar) || !$hideSidebar)
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark no-print">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ route('dashboard') }}">نقطة البيع</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('dashboard') }}">الرئيسية</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('pos') }}">نقطة البيع</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('orders.index') }}">الطلبات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('meals.index') }}">الوجبات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('reports.daily') }}">التقارير</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown">
+                                {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ route('auth.user.profile') }}" class="dropdown-item">Profile</a>
+                                </li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
     @endif
 
     <div class="container-fluid mt-3">
-        @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
 
-        @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
 
         @yield('content')

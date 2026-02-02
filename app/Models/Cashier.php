@@ -9,7 +9,7 @@ class Cashier extends Model
     //
     protected $fillable = [
         'name',
-        's_naumber',
+        's_number',
         'printer',
         'pos_device',
         'occupation',

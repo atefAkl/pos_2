@@ -9,8 +9,19 @@ export default defineConfig({
         }),
     ],
     server: {
+        host: '0.0.0.0', // Listen on all network interfaces
+        port: 5173,
+        strictPort: true,
+        hmr: {
+            host: 'www.pos-new.local', // Use your custom domain for HMR
+            protocol: 'http',
+        },
         watch: {
             ignored: ['**/storage/framework/views/**'],
+        },
+        cors: {
+            origin: 'http://www.pos-new.local',
+            credentials: true,
         },
     },
 });

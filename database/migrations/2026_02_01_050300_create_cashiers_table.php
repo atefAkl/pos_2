@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cashiers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('s_naumber')->unique();
+            $table->string('s_number')->unique();
             $table->string('printer');
             $table->string('pos_device');
             $table->boolean('occupation')->default(false);

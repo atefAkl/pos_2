@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cashier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CashierController extends Controller
 {
@@ -29,7 +30,22 @@ class CashierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name'          => 'required|string|max:255',
+            's_number'  => 'required|string|max:255',
+            'printer'   => 'required|string|max:255',
+            'pos_device' => 'required|string|max:255'
+        ]);
+
+        $validated['created_by'] = Auth::id();
+        $validated['updated_by'] = Auth::id();
+
+        try {
+            Cashier::create($validated);
+            return redirect()->route('cashiers.index')->with('success', 'Cashier created successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('cashiers.index')->with('error', 'Failed to create cashier: ' . $e->getMessage());
+        }
     }
 
     /**
