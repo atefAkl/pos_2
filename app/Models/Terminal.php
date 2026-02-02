@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cashier extends Model
+class Terminal extends Model
 {
     //
     protected $fillable = [

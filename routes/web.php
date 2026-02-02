@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CashierController;
+use App\Http\Controllers\TerminalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\OrderController;
@@ -25,14 +25,12 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Cashiers Management
-    Route::get('cashiers', [CashierController::class, 'index'])->name('cashiers.index');
-    Route::get('cashiers/create', [CashierController::class, 'create'])->name('cashiers.create');
-    Route::post('cashiers', [CashierController::class, 'store'])->name('cashiers.store');
-    Route::get('cashiers/{cashier}', [CashierController::class, 'show'])->name('cashiers.show');
-    Route::get('cashiers/{cashier}/edit', [CashierController::class, 'edit'])->name('cashiers.edit');
-    Route::put('cashiers/{cashier}', [CashierController::class, 'update'])->name('cashiers.update');
-    Route::delete('cashiers/{cashier}', [CashierController::class, 'destroy'])->name('cashiers.destroy');
+    // Terminals Management
+    Route::get('terminals', [TerminalController::class, 'index'])->name('terminals.index');
+    Route::post('terminals', [TerminalController::class, 'store'])->name('terminals.store');
+    Route::get('terminals/{terminal}', [TerminalController::class, 'show'])->name('terminals.show');
+    Route::put('terminals/{terminal}', [TerminalController::class, 'update'])->name('terminals.update');
+    Route::delete('terminals/{terminal}', [TerminalController::class, 'destroy'])->name('terminals.destroy');
 
     // Meals Management
     Route::resource('meals', MealController::class);

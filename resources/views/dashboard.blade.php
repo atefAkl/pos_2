@@ -81,16 +81,16 @@
 <!-- Statistics Cards -->
 <div class="card">
     <div class="card-header">
-        اجهزة الكاشير
+        POD Devices
     </div>
     <div class="card-body">
         <div class="row">
 
-            <a href="{{ route('cashiers.index') }}" class="setting-link col-12 col-sm-6 col-md-4 col-lg-3">
+            <a href="{{ route('terminals.index') }}" class="setting-link col-12 col-sm-6 col-md-4 col-lg-3">
                 <i class="fa fa-print fa-2x"></i>
                 <span class="link-title fs-6" style="">اجهزة الكاشير</span>
             </a>
-            <a href="{{ route('cashiers.index') }}" class="setting-link col-12 col-sm-6 col-md-4 col-lg-3">
+            <a href="{{ route('terminals.index') }}" class="setting-link col-12 col-sm-6 col-md-4 col-lg-3">
                 <i class="fa fa-print fa-2x"></i>
                 <span class="link-title fs-6" style="">اجهزة الكاشير</span>
             </a>

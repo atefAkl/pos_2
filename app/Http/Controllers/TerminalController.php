@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cashier;
+use App\Models\Terminal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CashierController extends Controller
+class TerminalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $cashiers = Cashier::all();
-        return view('settings.cashiers.index', compact('cashiers'));
+        $terminals = Terminal::all();
+        return view('settings.terminals.index', compact('terminals'));
     }
 
     /**
@@ -41,17 +41,17 @@ class CashierController extends Controller
         $validated['updated_by'] = Auth::id();
 
         try {
-            Cashier::create($validated);
-            return redirect()->route('cashiers.index')->with('success', 'Cashier created successfully');
+            Terminal::create($validated);
+            return redirect()->back()->with('success', 'Terminal created successfully');
         } catch (\Exception $e) {
-            return redirect()->route('cashiers.index')->with('error', 'Failed to create cashier: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to create terminal: ' . $e->getMessage());
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Cashier $cashier)
+    public function show(Terminal $terminal)
     {
         //
     }
@@ -59,7 +59,7 @@ class CashierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cashier $cashier)
+    public function edit(Terminal $terminal)
     {
         //
     }
@@ -67,7 +67,7 @@ class CashierController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cashier $cashier)
+    public function update(Request $request, Terminal $terminal)
     {
         //
     }
@@ -75,7 +75,7 @@ class CashierController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cashier $cashier)
+    public function destroy(Terminal $terminal)
     {
         //
     }

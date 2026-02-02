@@ -13,14 +13,14 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         hmr: {
-            host: 'www.pos-new.local', // Use your custom domain for HMR
+            host: 'localhost', // Use localhost for HMR
             protocol: 'http',
         },
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
         cors: {
-            origin: 'http://www.pos-new.local',
+            origin: 'http://localhost:8000',
             credentials: true,
         },
     },
