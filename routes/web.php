@@ -10,6 +10,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PosSessionController;
+use App\Http\Controllers\ShiftController;
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -31,6 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::get('terminals/{terminal}', [TerminalController::class, 'show'])->name('terminals.show');
     Route::put('terminals/{terminal}', [TerminalController::class, 'update'])->name('terminals.update');
     Route::delete('terminals/{terminal}', [TerminalController::class, 'destroy'])->name('terminals.destroy');
+
+    // Shifts Management
+
+    Route::post('shifts/store', [ShiftController::class, 'store'])->name('shifts.store');
 
     // Meals Management
     Route::resource('meals', MealController::class);

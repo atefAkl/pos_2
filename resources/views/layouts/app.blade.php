@@ -5,14 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'نقطة البيع')</title>
+    <title>@yield('title', 'POS Laravel')</title>
     <link href="{{ asset('build/assets/app-Bl5lLFHa.css') }}" rel="stylesheet">
     <script src="{{ asset('build/assets/app-B22hxfBP.js') }}"></script>
-<<<<<<< C:/wamp64/www/pos_2/resources/views/layouts/app.blade.php
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-=======
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
->>>>>>> C:/Users/dell/.windsurf/worktrees/pos_2/pos_2-a92507a0/resources/views/layouts/app.blade.php
+    @stack('scripts')
     <style>
         @media print {
             .no-print {
@@ -26,6 +23,18 @@
             box-sizing: border-box;
             font-family: normal 1rem/1.3 'Cairo', sans-serif;
             color: inherit;
+        }
+
+        .input-group .input-group-text,
+        .input-group select.form-select,
+        .input-group input.form-control {
+            border-radius: 0 !important;
+            height: 2.2rem;
+        }
+
+        .input-group select.form-select,
+        .input-group select.form-select option {
+            padding: 0.3rem 0.75rem !important;
         }
 
         ul li,
@@ -67,10 +76,6 @@
         a:active,
         a:visited {
             text-decoration: none;
-        }
-
-        .container {
-            width: 80%;
         }
 
         a.quick-action-btn {
@@ -137,23 +142,31 @@
     </nav>
     @endif
 
-    <div class="container-fluid mt-3">
-        @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        @endif
 
-        @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        @endif
 
-        @yield('content')
+    <div class="row">
+        <aside style="width: 250px; height: 100vh; background-color: #0080ffff;">
+
+        </aside>
+        <main class="col col-auto" style="width: calc(100vw - 250px);">
+            @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            @endif
+
+            @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            @endif
+            @yield('content')
+        </main>
     </div>
+
+
 </body>
 
 </html>

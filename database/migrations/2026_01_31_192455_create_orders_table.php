@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('has_delivery')->default(false);
             $table->decimal('delivery_amount', 10, 2)->nullable();
             $table->timestamps();
+            $table->engine = 'InnoDB';
         });
     }
 

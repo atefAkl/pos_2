@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('subtotal', 10, 2);
             $table->boolean('is_taxable')->default(true);
             $table->timestamps();
+            $table->engine = 'InnoDB';
         });
     }
 

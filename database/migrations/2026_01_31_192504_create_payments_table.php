@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->enum('payment_method', ['cash', 'card']);
             $table->timestamps();
+            $table->engine = 'InnoDB';
         });
     }
 

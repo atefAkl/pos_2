@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\HasUserTracking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUserTracking;
 
     protected $fillable = [
         'order_number',
@@ -20,6 +21,8 @@ class Order extends Model
         'payment_method',
         'has_delivery',
         'delivery_amount',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [
