@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CashierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TerminalController;
 use App\Http\Controllers\DashboardController;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
 
     // Shifts Management
 
+    Route::get('shifts', [ShiftController::class, 'index'])->name('shifts.index');
     Route::post('shifts/store', [ShiftController::class, 'store'])->name('shifts.store');
 
     // Meals Management
@@ -60,4 +62,12 @@ Route::middleware('auth')->group(function () {
     Route::post('pos-sessions/open', [PosSessionController::class, 'open'])->name('pos-sessions.open');
     Route::post('pos-sessions/close', [PosSessionController::class, 'close'])->name('pos-sessions.close');
     Route::get('pos-sessions/status', [PosSessionController::class, 'status'])->name('pos-sessions.status');
+
+    // Staff
+    Route::prefix('staff')->name('staff.')->group(function () {
+        Route::get('/cashiers', [CashierController::class, 'index'])->name('cahiers.index');
+        Route::post('/cashiers/store', [CashierController::class, 'store'])->name('cashiers.store');
+        Route::get('/cashiers/{cashier}/edit', [CashierController::class, 'store'])->name('cashiers.edit');
+        Route::get('/cashiers/{cashier}/profile', [CashierController::class, 'store'])->name('cashiers.profile');
+    });
 });

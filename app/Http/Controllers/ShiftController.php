@@ -14,7 +14,8 @@ class ShiftController extends Controller
      */
     public function index()
     {
-        //
+        $shifts = Shift::all();
+        return view('settings.shifts.index', compact('shifts'));
     }
 
     /**
