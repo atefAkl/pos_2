@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('opening_notes')->default('Everything is ok');
             $table->string('closing_notes')->nullable();
             $table->boolean('autoclose')->default(0);
+            $table->boolean('is_current')->default(0);
 
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
             $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete();

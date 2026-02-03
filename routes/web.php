@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('shifts', [ShiftController::class, 'index'])->name('shifts.index');
     Route::post('shifts/store', [ShiftController::class, 'store'])->name('shifts.store');
+    Route::delete('shifts/{shift}/destroy', [ShiftController::class, 'destroy'])->name('shifts.destroy');
+    Route::delete('shifts/{shift}/end', [ShiftController::class, 'end'])->name('shifts.end');
 
     // Meals Management
     Route::resource('meals', MealController::class);

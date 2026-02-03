@@ -14,8 +14,9 @@ class ShiftController extends Controller
      */
     public function index()
     {
+        $currentShift = Shift::currentShift();
         $shifts = Shift::all();
-        return view('settings.shifts.index', compact('shifts'));
+        return view('settings.shifts.index', compact('shifts', 'currentShift'));
     }
 
     /**
@@ -31,17 +32,15 @@ class ShiftController extends Controller
      */
     public function store(StartRequest $request)
     {
+        $validated = $request->validated();
         //return $request->validated();
-        if (Shift::currentShift()) {
-            return redirect()->back()->with('error', 'Shift is already active');
-        }
+        $validated['is_current'] = Shift::currentShift() ? false : true;
 
         if (!Auth::user()->role == 'start shift') {
             return redirect()->back()->with('error', 'You do not have permission to start a shift');
         }
 
         try {
-            $validated = $request->validated();
             $validated['accountant_id'] = Auth::id();
             //return $validated;
             Shift::create($validated);
@@ -81,5 +80,6 @@ class ShiftController extends Controller
     public function destroy(Shift $shift)
     {
         //
+        return $shift;
     }
 }

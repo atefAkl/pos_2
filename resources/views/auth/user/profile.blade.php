@@ -20,6 +20,7 @@
             </div>
         </div>
     </div>
+    @if(auth()->user()->role == 'cashier')
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -30,85 +31,90 @@
             </div>
         </div>
     </div>
-</div>
+    @endif
 
-@if(auth()->user()->role == 'accountant')
-<div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="setting-link col-sm-6 col-md-4 col-lg-3">
-                <button class="d-block w-100" data-bs-toggle="modal" data-bs-target="#openShiftModal">
-                    <i class="fa fa-print fa-2x"></i>
-                    <span class="link-title fs-6">Start New Shift</span>
-                </button>
+
+    @if(auth()->user()->role == 'accountant')
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="setting-link col-sm-6 col-md-4 col-lg-3">
+                    <button class="d-block w-100" data-bs-toggle="modal" data-bs-target="#openShiftModal">
+                        <i class="fa fa-print fa-2x"></i>
+                        <span class="link-title fs-6">Start New Shift</span>
+                    </button>
+                    @if($currentShift)
+                    <p class="text-muted small mt-2">Current shift: {{ $currentShift->started_at }}</p>
+                    <p class="text-muted small mt-2">Now: {{ $now->setTimezone(new \DateTimeZone('Asia/Riyadh')) }}</p>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
-</div>
-@endif
+    @endif
 
-<!-- Start Shift Modal -->
-<div class="modal fade" id="openShiftModal" tabindex="-1" aria-labelledby="openShiftModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="openShiftModalLabel">Start New Shift</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="shiftStartForm" class="p-6 bg-white shadow-md rounded-lg" method="POST" action="{{ route('shifts.store') }}">
-                    @csrf
-                    <div class="grid grid-cols-2 gap-4">
+    <!-- Start Shift Modal -->
+    <div class="modal fade" id="openShiftModal" tabindex="-1" aria-labelledby="openShiftModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="openShiftModalLabel">Start New Shift</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="shiftStartForm" class="p-6 bg-white shadow-md rounded-lg" method="POST" action="{{ route('shifts.store') }}">
+                        @csrf
+                        <div class="grid grid-cols-2 gap-4">
 
-                        <div class="input-group mb-2">
-                            <label class="input-group-text">Name:</label>
-                            <input type="text" name="name" placeholder="Ex: Morning Shift" required class="form-control border p-2 rounded">
+                            <div class="input-group mb-2">
+                                <label class="input-group-text">Name:</label>
+                                <input type="text" name="name" placeholder="Ex: Morning Shift" required class="form-control border p-2 rounded">
+                            </div>
+
+                            <div class="input-group mb-2">
+                                <label class="input-group-text">Serial Number:</label>
+                                <input type="text" id="serial_number" name="serial" readonly class="bg-gray-100 form-control p-2 rounded border">
+                                <label id="generate_shift_serial" class="input-group-text"><i class="fa fa-barcode"></i></label>
+                            </div>
+
+                            <div class="input-group mb-2">
+                                <label class="input-group-text">Starts At:</label>
+                                <input type="datetime-local" id="starts_at" name="started_at" class="form-control border p-2 rounded">
+                            </div>
+
+                            <div class="input-group mb-2">
+                                <label class="input-group-text">Ends At (Expected):</label>
+                                <input type="datetime-local" id="ends_at" name="ended_at" class="form-control border p-2 rounded">
+                            </div>
+
+                            <div class="input-group mb-2">
+                                <label class="input-group-text">Opening Balance:</label>
+                                <input type="number" name="opening_balance" value="0" step="0.01" class="form-control border p-2 rounded">
+                            </div>
+
+                            <div class="input-group mb-2">
+                                <label class="input-group-text">Auto Close:</label>
+                                <select name="autoclose" id="autoClose" class="form-select border p-2 rounded">
+                                    <option value="0">No (Manual close flexible)</option>
+                                    <option value="1">Yes (Automatic strict close)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-floating mb-2 ">
+                                <textarea name="opening_notes" class="form-control border px-3 pt-4 rounded" style="min-height: 150px" placeholder="">Everything is ok.</textarea>
+                                <label class="form-label">Opening Notes</label>
+                            </div>
+
                         </div>
-
-                        <div class="input-group mb-2">
-                            <label class="input-group-text">Serial Number:</label>
-                            <input type="text" id="serial_number" name="serial" readonly class="bg-gray-100 form-control p-2 rounded border">
-                            <label id="generate_shift_serial" class="input-group-text"><i class="fa fa-barcode"></i></label>
+                        <div class="btn-group d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Open Shift</button>
                         </div>
-
-                        <div class="input-group mb-2">
-                            <label class="input-group-text">Starts At:</label>
-                            <input type="datetime-local" id="starts_at" name="started_at" class="form-control border p-2 rounded">
-                        </div>
-
-                        <div class="input-group mb-2">
-                            <label class="input-group-text">Ends At (Expected):</label>
-                            <input type="datetime-local" id="ends_at" name="ended_at" class="form-control border p-2 rounded">
-                        </div>
-
-                        <div class="input-group mb-2">
-                            <label class="input-group-text">Opening Balance:</label>
-                            <input type="number" name="opening_balance" value="0" step="0.01" class="form-control border p-2 rounded">
-                        </div>
-
-                        <div class="input-group mb-2">
-                            <label class="input-group-text">Auto Close:</label>
-                            <select name="autoclose" id="autoClose" class="form-select border p-2 rounded">
-                                <option value="0">No (Manual close flexible)</option>
-                                <option value="1">Yes (Automatic strict close)</option>
-                            </select>
-                        </div>
-
-                        <div class="form-floating mb-2 ">
-                            <textarea name="opening_notes" class="form-control border px-3 pt-4 rounded" style="min-height: 150px" placeholder="">Everything is ok.</textarea>
-                            <label class="form-label">Opening Notes</label>
-                        </div>
-
-                    </div>
-                    <div class="btn-group d-flex justify-content-end">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Open Shift</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <script>
     // Shift form functionality
@@ -130,17 +136,18 @@
             }
         }
 
-        // Set default time values for shift
+        // Set default time values for shift, considering time zone offset {+3 Hours}
         function setShiftDefaultTimes() {
             const today = new Date();
 
-            // Set opening time to today at 8:00 AM
+            // Set opening time to today at 8:00 AM, considering time zone offset {+3 Hours}
             const openingTime = new Date(today);
-            openingTime.setHours(8, 0, 0, 0);
+            const offsetHours = 3;
+            openingTime.setHours(8 + offsetHours, 0, 0, 0);
 
-            // Set closing time to today at 4:00 PM
+            // Set closing time to today at 4:00 PM, considering time zone offset {+3 Hours}
             const closingTime = new Date(today);
-            closingTime.setHours(16, 0, 0, 0);
+            closingTime.setHours(16 + offsetHours, 0, 0, 0);
 
             // Format for datetime-local input (YYYY-MM-DDTHH:MM)
             const startsAtInput = document.getElementById('starts_at');

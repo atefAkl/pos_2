@@ -18,6 +18,9 @@ class Shift extends Model
         'autoclose',
         'opening_notes',
         'closing_balance',
+        'is_current',
+        'created_by',
+        'updated_by'
     ];
 
     protected $casts = [
@@ -35,8 +38,13 @@ class Shift extends Model
     /**
      * Get the shift which started today and ended at > now() 
      */
-    public static function currentShift(): bool
+    public static function currentShift()
     {
-        return self::where('ended_at', '>', now())->exists();
+        return Shift::where('is_current', true)->first();
+    }
+
+    public function isCurrent()
+    {
+        return $this->is_current;
     }
 }
