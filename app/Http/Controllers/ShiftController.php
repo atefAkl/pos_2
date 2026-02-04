@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Shifts\StartRequest;
 use App\Models\Shift;
+use App\Models\Terminal;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,10 +14,24 @@ class ShiftController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $req)
     {
         $currentShift = Shift::currentShift();
-        $shifts = Shift::all();
+        $query = Shift::query();
+        // Filteration and search 
+        if ($req->input('before') && $req->input('after')) {
+            $query->whereBetween('started_at', [$req->input('after'), $req->input('before')]);
+        } else {
+            if ($req->input('before')) {
+                $query->where('started_at', '<=', $req->input('before'));
+            }
+            if ($req->input('after')) {
+                $query->where('started_at', '>=', $req->input('after'));
+            }
+        }
+
+
+        $shifts = $query->with('sessions')->orderBy('created_at', 'desc')->paginate(10);
         return view('settings.shifts.index', compact('shifts', 'currentShift'));
     }
 
@@ -55,7 +71,10 @@ class ShiftController extends Controller
      */
     public function show(Shift $shift)
     {
-        //
+        $cashiers = User::where(['role' => 'cashier', 'status' => true])->get();
+        $terminals = Terminal::all();
+        $shift->load('sessions.cashier', 'sessions.terminal');
+        return view('settings.shifts.show', compact('shift', 'cashiers', 'terminals'));
     }
 
     /**
@@ -63,7 +82,7 @@ class ShiftController extends Controller
      */
     public function edit(Shift $shift)
     {
-        //
+        return view('settings.shifts.edit', compact('shift'));
     }
 
     /**

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CashierController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TerminalController;
 use App\Http\Controllers\DashboardController;
@@ -34,12 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::put('terminals/{terminal}', [TerminalController::class, 'update'])->name('terminals.update');
     Route::delete('terminals/{terminal}', [TerminalController::class, 'destroy'])->name('terminals.destroy');
 
-    // Shifts Management
-
-    Route::get('shifts', [ShiftController::class, 'index'])->name('shifts.index');
-    Route::post('shifts/store', [ShiftController::class, 'store'])->name('shifts.store');
-    Route::delete('shifts/{shift}/destroy', [ShiftController::class, 'destroy'])->name('shifts.destroy');
-    Route::delete('shifts/{shift}/end', [ShiftController::class, 'end'])->name('shifts.end');
 
     // Meals Management
     Route::resource('meals', MealController::class);
@@ -51,6 +45,9 @@ Route::middleware('auth')->group(function () {
 
     // POS Interface (without sidebar)
     Route::get('pos', [OrderController::class, 'create'])->name('pos');
+    Route::get('pos/create', [OrderController::class, 'create'])->name('pos.create');
+    Route::post('pos', [OrderController::class, 'store'])->name('pos.store');
+    Route::get('pos/{order}', [OrderController::class, 'show'])->name('pos.create');
 
     // Invoices
     Route::get('invoices/{order}/print', [InvoiceController::class, 'print'])->name('invoices.print');
@@ -65,11 +62,19 @@ Route::middleware('auth')->group(function () {
     Route::post('pos-sessions/close', [PosSessionController::class, 'close'])->name('pos-sessions.close');
     Route::get('pos-sessions/status', [PosSessionController::class, 'status'])->name('pos-sessions.status');
 
+    // Shifts Management
+    Route::get('shifts', [ShiftController::class, 'index'])->name('shifts.index');
+    Route::get('shifts/{shift}', [ShiftController::class, 'show'])->name('shifts.show');
+    Route::get('shifts/{shift}/edit', [ShiftController::class, 'edit'])->name('shifts.edit');
+    Route::post('shifts/store', [ShiftController::class, 'store'])->name('shifts.store');
+    Route::delete('shifts/{shift}/destroy', [ShiftController::class, 'destroy'])->name('shifts.destroy');
+    Route::delete('shifts/{shift}/end', [ShiftController::class, 'end'])->name('shifts.end');
+
     // Staff
     Route::prefix('staff')->name('staff.')->group(function () {
-        Route::get('/cashiers', [CashierController::class, 'index'])->name('cahiers.index');
-        Route::post('/cashiers/store', [CashierController::class, 'store'])->name('cashiers.store');
-        Route::get('/cashiers/{cashier}/edit', [CashierController::class, 'store'])->name('cashiers.edit');
-        Route::get('/cashiers/{cashier}/profile', [CashierController::class, 'store'])->name('cashiers.profile');
+        Route::get('/members', [MemberController::class, 'index'])->name('members.index');
+        Route::post('/members/store', [MemberController::class, 'store'])->name('members.store');
+        Route::get('/members/{member}/edit', [MemberController::class, 'store'])->name('members.edit');
+        Route::get('/members/{member}/profile', [MemberController::class, 'store'])->name('members.profile');
     });
 });

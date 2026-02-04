@@ -43,6 +43,11 @@ class Shift extends Model
         return Shift::where('is_current', true)->first();
     }
 
+    public function sessions()
+    {
+        return $this->hasMany(PosSession::class);
+    }
+
     public function isCurrent()
     {
         return $this->is_current;

@@ -27,6 +27,28 @@
             color: inherit;
         }
 
+        fieldset {
+            position: relative;
+            margin: 1rem 0 1.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.75rem;
+            padding: 1.5rem 1rem 0;
+        }
+
+        legend {
+            border: 1px solid #dee2e6;
+            position: absolute;
+            top: -1rem;
+            margin-inline-start: 1.2rem;
+            height: 2rem;
+            width: auto;
+            padding: 0.25rem 0.5rem;
+            font: Bolder 1.2rem / 1.2 'Cairo', sans-serif;
+            color: #555;
+            background-color: #fff;
+            border-radius: 0.75rem;
+        }
+
         .input-group .input-group-text,
         .input-group select.form-select,
         .input-group input.form-control {
@@ -39,13 +61,31 @@
             padding: 0.3rem 0.75rem !important;
         }
 
+        .input-group .form-control:first-child,
+        .input-group .form-select:first-child,
+        .input-group .input-group-text:first-child {
+            border-radius: 0.5rem 0 0 0.5rem !important;
+        }
+
+        .input-group .form-control:last-child,
+        .input-group .form-select:last-child,
+        .input-group .input-group-text:last-child {
+            border-radius: 0 0.5rem 0.5rem 0 !important;
+        }
+
+        .input-group .form-control:only-child,
+        .input-group .form-select:only-child,
+        .input-group .input-group-text:only-child {
+            border-radius: 0.5rem !important;
+        }
+
         ul li,
         ol li {
             list-style: none;
         }
 
         .page-heading .page-heading-title {
-            font: Bolder 1.3rem /1.3 'Cairo', sans-serif;
+            font: Bolder 1.3rem / 1.3 'Cairo', sans-serif;
             color: #555;
             padding: 0 1rem;
         }
@@ -163,9 +203,9 @@
                     <strong color="#fff"><i class="fa fa-cogs"></i> Settings</strong>
                     <ul>
                         <li>
-                            <a href="{{ route('staff.cahiers.index') }}" class="nav-link text-white">
+                            <a href="{{ route('staff.members.index') }}" class="nav-link text-white">
                                 <i class="fa fa-print"></i>
-                                <span>Cashiers</span>
+                                <span>Members</span>
                             </a>
                         </li>
                         <li>

@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class CashierController extends Controller
+class MemberController extends Controller
 {
     public function index()
     {
-        $cashiers = User::where(['role' => 'cashier'])->get();
-        return view('staff.cashiers.index', compact('cashiers'));
+        $members = User::where(['status' => true])->get();
+        return view('staff.members.index', compact('members'));
     }
 
     public function store(Request $req)
@@ -21,15 +21,11 @@ class CashierController extends Controller
             'email' => 'required|email|unique:users',
             'role' => 'required|in:cashier,admin,accountant',
         ]);
-
         $validated['password'] = Hash::make('password');
-
-
         // return $validated;
-
         try {
             User::create($validated);
-            return redirect()->back()->with('success', 'Cashier added successfully');
+            return redirect()->back()->with('success', 'Member added successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

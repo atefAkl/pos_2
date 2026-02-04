@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PosSession;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PosSessionController extends Controller
 {
@@ -11,22 +12,27 @@ class PosSessionController extends Controller
     {
         $validated = $request->validate([
             'opening_balance' => 'required|numeric|min:0',
+        ], [
+            'opening_balance.required' => 'Opening Balance is required',
+            'opening_balance.numeric' => 'Opening Balance must be numeric',
         ]);
 
         // Check if there's an open session
-        $openSession = PosSession::where('status', 'open')->where('user_id', auth()->id())->first();
-        if ($openSession) {
-            return redirect()->back()->with('error', 'يوجد جلسة مفتوحة بالفعل');
+        $openedSession = PosSession::where('status', 'open')->where('user_id', $request->user_id)->first();
+        if ($openedSession) {
+            return redirect()->back()->with('error', 'An active session is already open for this user.');
         }
 
         PosSession::create([
-            'user_id' => auth()->id(),
+            'user_id' => $request->input('user_id'),
+            'terminal_id' => $request->input('terminal_id'),
+            'shift_id' => $request->input('shift_id'),
             'opening_balance' => $validated['opening_balance'],
             'opened_at' => now(),
             'status' => 'open',
         ]);
 
-        return redirect()->back()->with('success', 'تم فتح نقطة البيع بنجاح');
+        return redirect()->back()->with('success', 'A new session has been opened.');
     }
 
     public function close(Request $request)
@@ -36,7 +42,7 @@ class PosSessionController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        $session = PosSession::where('status', 'open')->where('user_id', auth()->id())->first();
+        $session = PosSession::where('status', 'open')->where('user_id', Auth::id())->first();
 
         if (!$session) {
             return redirect()->back()->with('error', 'لا توجد جلسة مفتوحة');
@@ -45,7 +51,7 @@ class PosSessionController extends Controller
         // Calculate expected balance from today's sales
         $todaySales = \App\Models\Order::whereDate('created_at', today())
             ->where('status', 'completed')
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->sum('total_amount');
 
         $expectedBalance = $session->opening_balance + $todaySales;
@@ -63,7 +69,7 @@ class PosSessionController extends Controller
 
     public function status()
     {
-        $openSession = PosSession::where('status', 'open')->where('user_id', auth()->id())->first();
+        $openSession = PosSession::where('status', 'open')->where('user_id', Auth::id())->first();
         return response()->json([
             'is_open' => $openSession !== null,
             'session' => $openSession,
